@@ -1,0 +1,73 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <script src="codebase/dhtmlxscheduler.js" type="text/javascript" charset="utf-8"></script>
+    <!-- Plugins -->
+    <script src="codebase/ext/dhtmlxscheduler_limit.js" type="text/javascript"></script>
+    <script src="codebase/ext/dhtmlxscheduler_grid_view.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="codebase/dhtmlxscheduler.css" type="text/css" media="screen" title="no title" charset="utf-8">
+    <style type="text/css" media="screen">
+        html, body{
+            margin:0px;
+            padding:0px;
+            height:100%;
+            overflow:hidden;
+        }   
+    </style>
+</head>
+
+
+<script type="text/javascript" charset="utf-8">
+    function init() {
+
+        scheduler.init('scheduler_here', new Date(),"week");
+        scheduler.config.first_hour = 8;
+        scheduler.config.last_hour = 18;
+        scheduler.config.readonly = false;
+
+        scheduler.ignore_week = function(date){
+            if (date.getDay() == 6 || date.getDay() == 0) //hides Saturdays and Sundays
+                return true;
+        };
+        scheduler.addMarkedTimespan({
+            days:  [1,2,3,4,5],                 										// de lundi a vendredi
+            zones: [0,8*60+45,10*60+45,11*60,15*60+45,16*60,18*60,24*60],       		// de 10h45 à 11h et de 15h45 a 16h
+            type:  "dhx_time_block" 													// empèche d'entrer des event pour cette zone
+        });
+        scheduler.addMarkedTimespan({
+            days:  [1,2,3,4,5],                 // de lundi a vendredi
+            zones: [13*60,13*60+45],       		// de 13h a 13h45
+            type:  "dhx_time_block" 			// empèche d'entrer des event pour cette zone
+        });
+        scheduler.addMarkedTimespan({
+            days:  [0,6],                       // samedi et dimanche
+            zones: "fullday",       			// toute la journée
+            type:  "dhx_time_block" 			// empèche d'entrer des event pour cette zone
+        });
+        scheduler.updateView();
+
+
+
+	}
+        
+</script>
+
+<body onload="init();">
+    <div id="scheduler_here" class="dhx_cal_container" style='width:100%; height:100%;'>
+        <div class="dhx_cal_navline">
+            <div class="dhx_cal_prev_button">&nbsp;</div>
+            <div class="dhx_cal_next_button">&nbsp;</div>
+            <div class="dhx_cal_today_button"></div>
+            <div class="dhx_cal_date"></div>
+            <div class="dhx_cal_tab" name="day_tab" style="right:204px;"></div>
+            <div class="dhx_cal_tab" name="week_tab" style="right:140px;"></div>
+            <div class="dhx_cal_tab" name="month_tab" style="right:76px;"></div>
+        </div>
+        <div class="dhx_cal_header">
+        </div>
+        <div class="dhx_cal_data">
+        </div>
+    </div>
+</body>
+</html>
